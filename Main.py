@@ -6,10 +6,22 @@ import MainCode
 from ParametersWindow import ParameterWindow
 from MainWindow import UiMainWindow
 from Dialogs import ParameterUiDialog, GraphicByTimeUiDialog, GraphicByParameterUiDialog, LinalgUiDialog, \
-    MultiLinalgUiDialog, ImportUiDialog, UniteDataUiDialog, ShiftParameters, ExportUiDialog
+    MultiLinalgUiDialog, ImportUiDialog, UniteDataUiDialog, ShiftParameters, ExportUiDialog, Que
 
 
 class MainWindow(QMainWindow, UiMainWindow):
+    help_m: Que
+    open_param_m: ParameterWindow
+    import_txt_file_m: QDialog
+    export_m: QDialog
+    unite_txt_file_m: QDialog
+    open_formulas_m: QDialog
+    graphic_by_time_m: QDialog
+    graphic_by_parameter_m: QDialog
+    lin_alg_m: QDialog
+    multi_alg_m: QDialog
+    shift_params_m: QDialog
+    close: QMessageBox
 
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -29,6 +41,7 @@ class MainWindow(QMainWindow, UiMainWindow):
         self.unite_txt_data_mw.triggered.connect(self.unite_txt_data_mf)
         self.linalg_mw.triggered.connect(self.lin_alg_mf)
         self.multi_linalg_mw.triggered.connect(self.multi_alg_mf)
+        self.faq_mw.triggered.connect(self.help_win_mf)
 
     def open_param_mf(self):
         self.open_param_m = ParameterWindow()
@@ -43,7 +56,7 @@ class MainWindow(QMainWindow, UiMainWindow):
     def import_txt_file_mf(self):
         self.import_txt_file_m = QDialog()
         self.import_txt_file_m.ui = ImportUiDialog()
-        self.import_txt_file_m.ui.setupUi(self.import_txt_file_m)
+        self.import_txt_file_m.ui.setup_ui(self.import_txt_file_m)
         self.import_txt_file_m.show()
 
     def export_mf(self):
@@ -52,13 +65,15 @@ class MainWindow(QMainWindow, UiMainWindow):
         self.export_m.ui.setup_ui(self.export_m)
         self.export_m.show()
 
-    def save_file_mf(self):
+    @staticmethod
+    def save_file_mf():
         Files.save()
 
-    def save_as_mf(self):
-        self.file_name, ok = QFileDialog.getSaveFileName(QFileDialog(), "Сохранить файл", filter="*.grad \n *.csv")
+    @staticmethod
+    def save_as_mf():
+        file_name, ok = QFileDialog.getSaveFileName(QFileDialog(), "Сохранить файл", filter="*.grad \n *.csv")
         if ok:
-            Files.save_as(self.file_name)
+            Files.save_as(file_name)
 
     def unite_txt_data_mf(self):
         self.unite_txt_file_m = QDialog()
@@ -81,13 +96,13 @@ class MainWindow(QMainWindow, UiMainWindow):
     def graphic_by_parameter_mf(self):
         self.graphic_by_parameter_m = QDialog()
         self.graphic_by_parameter_m.ui = GraphicByParameterUiDialog()
-        self.graphic_by_parameter_m.ui.setupUi(self.graphic_by_parameter_m)
+        self.graphic_by_parameter_m.ui.setup_ui(self.graphic_by_parameter_m)
         self.graphic_by_parameter_m.show()
 
     def lin_alg_mf(self):
         self.lin_alg_m = QDialog()
         self.lin_alg_m.ui = LinalgUiDialog()
-        self.lin_alg_m.ui.setupUi(self.lin_alg_m)
+        self.lin_alg_m.ui.setup_ui(self.lin_alg_m)
         self.lin_alg_m.show()
 
     def multi_alg_mf(self):
@@ -102,22 +117,32 @@ class MainWindow(QMainWindow, UiMainWindow):
         self.shift_params_m.ui.setup_ui(self.shift_params_m)
         self.shift_params_m.show()
 
+    def help_win_mf(self):
+        self.help_m = Que()
+        self.help_m.show()
+
     def closeEvent(self, event):
         self.close = QMessageBox()
-        ask = self.close.question(self, "", "Сохранить изменения?",
+        ask = self.close.question(self, "", "Сохранить изменения?       ",
                                   self.close.Yes | self.close.Discard | self.close.No)
+
         if ask == self.close.Yes:
             Files.save()
             event.accept()
+            for window in QApplication.topLevelWidgets():
+                window.close()
         elif ask == self.close.Discard:
             event.ignore()
         elif ask == self.close.No:
             event.accept()
+            for window in QApplication.topLevelWidgets():
+                window.close()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("logo.png"))
+    app.setWindowIcon(QIcon("logos/logo.png"))
     win = MainWindow()
-    win.setWindowIcon(QIcon("logo.png"))
+    win.setWindowIcon(QIcon("logos/logo.png"))
     win.show()
     sys.exit(app.exec())

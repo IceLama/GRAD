@@ -1,88 +1,94 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QSizePolicy, QAction, QMenu, QMenuBar, QWidget, QGridLayout, QHBoxLayout
 
 
-class UiMainWindow(object):
-    def setup_ui(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-        MainWindow.resize(1000, 1)
+class UiMainWindow:
+    central_widget: QWidget
+    horizontal_layout: QHBoxLayout
+    grid_layout: QGridLayout
+    widget: QWidget
+    menu_bar: QMenuBar
+    File: QMenu
+    Parameters: QMenu
+    Graphics: QMenu
+    Treatment: QMenu
+    Faq: QMenu
+    open_file_mw: QAction
+    save_file_mw: QAction
+    save_file_as_mw: QAction
+    import_files_mw: QAction
+    export_files_mw: QAction
+    unite_txt_data_mw: QAction
+    graphic_by_time_mw: QAction
+    linalg_mw: QAction
+    multi_linalg_mw: QAction
+    graphic_by_parameter_mw: QAction
+    open_params_mw: QAction
+    shift_params_mw: QAction
+    formulas_mw: QAction
+    faq_mw: QAction
+
+    def setup_ui(self, main_window):
+        main_window.setEnabled(True)
+        main_window.resize(1000, 1)
         size_policy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
-        MainWindow.setMaximumSize(1000, 25)
-        MainWindow.setMinimumSize(1000, 25)
-        MainWindow.move(1, 1)
-        MainWindow.setAutoFillBackground(False)
-        MainWindow.setDocumentMode(True)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setEnabled(True)
-        self.centralwidget.setMouseTracking(True)
-        self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setObjectName("gridLayout")
-        self.widget = QtWidgets.QWidget(self.centralwidget)
-        self.widget.setObjectName("widget")
-        self.gridLayout.addWidget(self.widget, 0, 0, 1, 1)
-        self.horizontalLayout.addLayout(self.gridLayout)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setEnabled(True)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 654, 22))
-        self.menubar.setAutoFillBackground(False)
-        self.menubar.setObjectName("menubar")
+        main_window.setMaximumSize(1000, 25)
+        main_window.setMinimumSize(1000, 25)
+        main_window.move(1, 1)
+        main_window.setAutoFillBackground(False)
+        main_window.setDocumentMode(True)
+        self.central_widget = QtWidgets.QWidget(main_window)
+        self.central_widget.setEnabled(True)
+        self.central_widget.setMouseTracking(True)
+        self.horizontal_layout = QtWidgets.QHBoxLayout(self.central_widget)
+        self.grid_layout = QtWidgets.QGridLayout()
+        self.widget = QtWidgets.QWidget(self.central_widget)
+        self.grid_layout.addWidget(self.widget, 0, 0, 1, 1)
+        self.horizontal_layout.addLayout(self.grid_layout)
+        main_window.setCentralWidget(self.central_widget)
+        self.menu_bar = QtWidgets.QMenuBar(main_window)
+        self.menu_bar.setEnabled(True)
+        self.menu_bar.setGeometry(QtCore.QRect(0, 0, 654, 22))
+        self.menu_bar.setAutoFillBackground(False)
 
-        self.File = QtWidgets.QMenu(self.menubar)
-        self.File.setObjectName("File")
-        self.Parameters = QtWidgets.QMenu(self.menubar)
-        self.Parameters.setObjectName("Parameters")
-        self.Graphics = QtWidgets.QMenu(self.menubar)
-        self.Graphics.setObjectName("Graphics")
-        self.Treatment = QtWidgets.QMenu(self.menubar)
-        self.Treatment.setObjectName("Treatment")
+        self.File = QtWidgets.QMenu(self.menu_bar)
+        self.Parameters = QtWidgets.QMenu(self.menu_bar)
+        self.Graphics = QtWidgets.QMenu(self.menu_bar)
+        self.Treatment = QtWidgets.QMenu(self.menu_bar)
+        self.Faq = QtWidgets.QMenu(self.menu_bar)
 
-        MainWindow.setMenuBar(self.menubar)
+        main_window.setMenuBar(self.menu_bar)
 
-        self.open_file_mw = QtWidgets.QAction(MainWindow)
-        self.open_file_mw.setObjectName("open_file")
+        self.open_file_mw = QtWidgets.QAction(main_window)
 
-        self.save_file_mw = QtWidgets.QAction(MainWindow)
-        self.save_file_mw.setObjectName("save_file")
+        self.save_file_mw = QtWidgets.QAction(main_window)
 
-        self.save_file_as_mw = QtWidgets.QAction(MainWindow)
-        self.save_file_as_mw.setObjectName("save_file_as")
+        self.save_file_as_mw = QtWidgets.QAction(main_window)
 
-        self.import_files_mw = QtWidgets.QAction(MainWindow)
-        self.import_files_mw.setObjectName("import_files")
+        self.import_files_mw = QtWidgets.QAction(main_window)
 
-        self.export_files_mw = QtWidgets.QAction(MainWindow)
-        self.export_files_mw.setObjectName("export")
+        self.export_files_mw = QtWidgets.QAction(main_window)
 
-        self.unite_txt_data_mw = QtWidgets.QAction(MainWindow)
-        self.unite_txt_data_mw.setObjectName("unite_txt_data")
+        self.unite_txt_data_mw = QtWidgets.QAction(main_window)
 
-        self.graphic_by_time_mw = QtWidgets.QAction(MainWindow)
-        self.graphic_by_time_mw.setObjectName("graphic_by_time")
+        self.graphic_by_time_mw = QtWidgets.QAction(main_window)
 
-        self.linalg_mw = QtWidgets.QAction(MainWindow)
-        self.linalg_mw.setObjectName("linalg")
+        self.linalg_mw = QtWidgets.QAction(main_window)
 
-        self.multi_linalg_mw = QtWidgets.QAction(MainWindow)
-        self.multi_linalg_mw.setObjectName("multi_linalg")
+        self.multi_linalg_mw = QtWidgets.QAction(main_window)
 
-        self.graphic_by_parameter_mw = QtWidgets.QAction(MainWindow)
-        self.graphic_by_parameter_mw.setObjectName("graphic_by_param")
+        self.graphic_by_parameter_mw = QtWidgets.QAction(main_window)
 
-        self.open_params_mw = QtWidgets.QAction(MainWindow)
-        self.open_params_mw.setObjectName("open_params")
+        self.open_params_mw = QtWidgets.QAction(main_window)
 
-        self.shift_params_mw = QtWidgets.QAction(MainWindow)
-        self.shift_params_mw.setObjectName("shift_params")
+        self.shift_params_mw = QtWidgets.QAction(main_window)
 
-        self.formulas_mw = QtWidgets.QAction(MainWindow)
-        self.formulas_mw.setObjectName("formulas")
+        self.formulas_mw = QtWidgets.QAction(main_window)
+
+        self.faq_mw = QtWidgets.QAction(main_window)
 
         self.File.addAction(self.open_file_mw)
         self.File.addAction(self.save_file_mw)
@@ -98,35 +104,56 @@ class UiMainWindow(object):
         self.Graphics.addAction(self.graphic_by_parameter_mw)
         self.Treatment.addAction(self.linalg_mw)
         self.Treatment.addAction(self.multi_linalg_mw)
-        self.menubar.addAction(self.File.menuAction())
-        self.menubar.addAction(self.Parameters.menuAction())
-        self.menubar.addAction(self.Graphics.menuAction())
-        self.menubar.addAction(self.Treatment.menuAction())
+        self.Faq.addAction(self.faq_mw)
+        self.menu_bar.addAction(self.File.menuAction())
+        self.menu_bar.addAction(self.Parameters.menuAction())
+        self.menu_bar.addAction(self.Graphics.menuAction())
+        self.menu_bar.addAction(self.Treatment.menuAction())
+        self.menu_bar.addAction(self.Faq.menuAction())
 
-        self.retranslate_ui(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslate_ui(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslate_ui(self, MainWindow):
+    def retranslate_ui(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Grad"))
-        self.File.setTitle(_translate("MainWindow", "Файл"))
-        self.Parameters.setTitle(_translate("MainWindow", "Параметры"))
-        self.Graphics.setTitle(_translate("MainWindow", "Графики"))
-        self.Treatment.setTitle(_translate("MainWindow", "Обработка"))
+        main_window.setWindowTitle(_translate("main_window", "Grad"))
+        self.File.setTitle(_translate("main_window", "Файл"))
+        self.Parameters.setTitle(_translate("main_window", "Параметры"))
+        self.Graphics.setTitle(_translate("main_window", "Графики"))
+        self.Treatment.setTitle(_translate("main_window", "Обработка"))
+        self.Faq.setTitle(_translate("main_window", "Справка"))
 
-        self.open_file_mw.setText(_translate("MainWindow", "Открыть..."))
-        self.open_file_mw.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.save_file_mw.setText(_translate("MainWindow", "Сохранить"))
-        self.save_file_mw.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.save_file_as_mw.setText(_translate("MainWindow", "Сохранить как..."))
-        self.save_file_as_mw.setShortcut(_translate("MainWindow", "Ctrl+A"))
-        self.import_files_mw.setText(_translate("MainWindow", "Импорт..."))
-        self.export_files_mw.setText(_translate("MainWindow", "Экспорт"))
-        self.unite_txt_data_mw.setText(_translate("MainWindow", "Объединить файлы..."))
-        self.graphic_by_time_mw.setText(_translate("MainWindow", "График по времени "))
-        self.graphic_by_parameter_mw.setText(_translate("MainWindow", "График по параметру"))
-        self.open_params_mw.setText(_translate("MainWindow", "Таблица параметров"))
-        self.formulas_mw.setText(_translate("MainWindow", "Формулы"))
-        self.shift_params_mw.setText(_translate("MainWindow", "Сдвиг параметров"))
-        self.linalg_mw.setText(_translate("MainWindow", "Линейная регрессия"))
-        self.multi_linalg_mw.setText(_translate("MainWindow", "Множественная регрессия"))
+        self.open_file_mw.setText(_translate("main_window", "Открыть..."))
+        self.open_file_mw.setShortcut(_translate("main_window", "Ctrl+O"))
+        self.open_file_mw.setIcon(QIcon("icons/open_file_icon.png"))
+        self.save_file_mw.setText(_translate("main_window", "Сохранить"))
+        self.save_file_mw.setShortcut(_translate("main_window", "Ctrl+S"))
+        self.save_file_mw.setIcon(QIcon("icons/save_icon.png"))
+        self.save_file_as_mw.setText(_translate("main_window", "Сохранить как..."))
+        self.save_file_as_mw.setShortcut(_translate("main_window", "Ctrl+A"))
+        self.save_file_as_mw.setIcon(QIcon("icons/save_as_icon.png"))
+        self.import_files_mw.setText(_translate("main_window", "Импорт..."))
+        self.import_files_mw.setIcon(QIcon("icons/import_icon.png"))
+        self.export_files_mw.setText(_translate("main_window", "Экспорт"))
+        self.export_files_mw.setIcon(QIcon("icons/export_icon.png"))
+        self.unite_txt_data_mw.setText(_translate("main_window", "Объединить файлы..."))
+        self.unite_txt_data_mw.setIcon(QIcon("icons/unite_files_icon.png"))
+        self.graphic_by_time_mw.setText(_translate("main_window", "График по времени "))
+        self.graphic_by_time_mw.setShortcut(_translate("main_window", "Ctrl+G"))
+        self.graphic_by_time_mw.setIcon(QIcon("icons/plot_icon.png"))
+        self.graphic_by_parameter_mw.setText(_translate("main_window", "График по параметру"))
+        self.graphic_by_parameter_mw.setIcon(QIcon("icons/scatter_icon.png"))
+        self.open_params_mw.setText(_translate("main_window", "Таблица параметров"))
+        self.open_params_mw.setIcon(QIcon("icons/table_icon.png"))
+        self.formulas_mw.setText(_translate("main_window", "Формулы"))
+        self.formulas_mw.setShortcut(_translate("main_window", "Ctrl+F"))
+        self.formulas_mw.setIcon(QIcon("icons/formula_icon.png"))
+        self.shift_params_mw.setText(_translate("main_window", "Сдвиг параметров"))
+        self.shift_params_mw.setIcon(QIcon("icons/shift_analog_icon.png"))
+        self.linalg_mw.setText(_translate("main_window", "Линейная регрессия"))
+        self.linalg_mw.setIcon(QIcon("icons/data_analysis_icon.png"))
+        self.multi_linalg_mw.setText(_translate("main_window", "Множественная регрессия"))
+        self.multi_linalg_mw.setIcon(QIcon("icons/data_analysis_icon.png"))
+        self.faq_mw.setText(_translate("main_window", "Справка"))
+        self.faq_mw.setShortcut(_translate("main_window", "F1"))
+        self.faq_mw.setIcon(QIcon("icons/help_icon.png"))

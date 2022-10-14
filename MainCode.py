@@ -28,19 +28,19 @@ class Files:
             return False
         else:
             try:
-                data_imported = pd.DataFrame(dtype="float")
+                data_imported = pl.DataFrame()
                 if sep:
                     data_before = pd.read_csv(file, sep="\s+", encoding=coding)
                     f = np.full(len(data_before), "no formula")
                     formulas = pd.DataFrame({"__Формулы__": f})
-                    data_imported = pd.concat([data_before, formulas], axis=1)
-
+                    data_with_f = pd.concat([data_before, formulas], axis=1)
+                    data_imported = pl.from_pandas(data_with_f)
                 elif not sep:
                     data_before = pd.read_csv(file, delimiter=delimiter, encoding=coding)
                     f = np.full(len(data_before), "no formula")
                     formulas = pd.DataFrame({"__Формулы__": f})
-                    data_imported = pd.concat([data_before, formulas], axis=1)
-                data_imported.to_csv(ex_file_name, index=False, sep=";", encoding="utf-8")
+                    data_imported = pl.from_pandas(pd.concat([data_before, formulas], axis=1))
+                data_imported.write_csv(ex_file_name, sep=";")
                 return True
             except ValueError:
                 return False
@@ -70,7 +70,6 @@ class Files:
             return False
         else:
             try:
-                data_concated = pd.DataFrame()
                 if how == "Последовательно":
                     if sep:
                         df_files = [pd.read_table(file, sep="\s+", encoding=coding) for file in files]
@@ -79,22 +78,25 @@ class Files:
                     else:
                         df_files = [pd.read_csv(file, delimiter=delimiter, encoding=coding) for file in files]
                         data_concated = pd.concat(df_files, ignore_index=True)
+                    data_to_save = pl.from_pandas(data_concated)
+                    data_to_save.write_csv(ex_file_name, sep=";")
 
                 elif how == "Параллельно":
                     if sep:
-                        df_files = [pd.read_table(file, sep="\s+", encoding=coding) for file in files]
-                        data_concated = pd.concat(df_files, axis=1)
+                        df_files = [pl.read_csv(file, sep="\s+", encoding=coding) for file in files]
+                        data_concated = pl.concat(df_files, how="horizontal")
                     else:
-                        df_files = [pd.read_csv(file, delimiter=delimiter, encoding=coding) for file in files]
-                        data_concated = pd.concat(df_files, axis=1)
+                        df_files = [pl.read_csv(file, sep=delimiter, encoding=coding) for file in files]
+                        data_concated = pl.concat(df_files, how="horizontal", )
+                    data_concated.write_csv(ex_file_name, sep=";")
 
                 elif how == "Одиночные":
-                    data_concated = pd.DataFrame(dtype="float")
+                    data_concated = pd.DataFrame(dtype="float64")
                     for file_name in files:
                         with open(file_name) as f:
                             data_concated[file_name.split("/")[-1][0:-4]] = pd.read_csv(f)
-                data_to_save = pl.from_pandas(data_concated)
-                data_to_save.write_csv(ex_file_name, sep=";")
+                    data_to_save = pl.from_pandas(data_concated)
+                    data_to_save.write_csv(ex_file_name, sep=";")
                 return True
             except ValueError:
                 return False
@@ -121,9 +123,11 @@ class Files:
             pl_data_to_export = pl.from_pandas(pd_data_to_export)
             pl_data_to_export.write_csv(file_name, sep=";")
             return True
-        except Exception:
+        except ValueError:
             return False
 
+
+# noinspection PyBroadException
 class Parameters:
     """Добавляем параметр в DataFrame, если добавляемый параметр называется "Time" или "time",
     то в начало DataFrame добавляется параметр, с названием "Time"
@@ -146,9 +150,10 @@ class Parameters:
             param = np.ones(len_of_data)
             index = len(data.columns)-1
             data.insert(index, parameter_name, param)
+            data.loc[index, "__Формулы__"] = "1.0"
             return True
 
-    """Просто удаляем выбранный параметр"""
+    """Удаляем выбранный параметр, а также удаляем его формулу в формулах"""
     @staticmethod
     def delete_parameters(parameters_names: list, indexes):
         try:
@@ -189,22 +194,23 @@ class Parameters:
     @staticmethod
     def add_zero_parameters(parameters_names: list):
         try:
-            index = len(data.columns) - 1
             len_of_data = len(data)
             for parameter_name in parameters_names:
+                index = len(data.columns) - 1
                 data.insert(index, f"{parameter_name}_0", np.ones(len_of_data))
+                data.loc[index, "__Формулы__"] = "1.0"
             return True
         except Exception:
             return False
-    """Копируем столбцы в конец DataFrame и добавляем к названию "_h" """
+    """Копируем столбцы в конец DataFrame, добавляем к названию "_h" и записываем к ней формулу"""
     @staticmethod
     def add_h_parameters(parameters_names: list):
         try:
-            index = len(data.columns) - 1
             len_of_data = len(data)
             for parameter_name in parameters_names:
+                index = len(data.columns) - 1
                 data.insert(index, f"{parameter_name}_h", np.ones(len_of_data))
-                Parameters.add_formula(f"{parameter_name}_h", f"{parameter_name} - {parameter_name}_0")
+                data.loc[index, "__Формулы__"] = f"{parameter_name} - {parameter_name}_0"
             return True
         except Exception:
             return False
@@ -244,16 +250,17 @@ class Parameters:
                     a = compile(i, "", "exec")
                     exec(a)
             else:
-                data.loc[:, parameter_name] = data.eval(formula)
+                data.loc[:, parameter_name] = np.round(data.eval(formula), 6)
             return True
         except Exception:
             return False
 
-    """Значения параметров рассчитываются по соответсвующим формулам"""
+    """Значения параметров рассчитываются по соответсвующим формулам. Нужно для того, чтобы после изменения значения 
+    параметра, который используется для расчета другого параметра, последний параметр пересчитывался."""
     @staticmethod
     def accept_formulas():
         len_of_data = len(data)
-        formulas_data = data["__Формулы__"].values[:len(data.columns):]
+        formulas_data = data["__Формулы__"].values[:len(data.columns)]
         error_index = 0
         try:
             for index, formula in np.ndenumerate(formulas_data):
@@ -267,20 +274,21 @@ class Parameters:
                         a = compile(i, "", "exec")
                         exec(a)
                 else:
-                    data.loc[:, name] = data.eval(formula)
+                    data.loc[:, name] = np.round(data.eval(formula), 6)
                 error_index += 1
             return True, True
         except Exception:
             return False, data.columns[error_index]
 
 
+# noinspection PyBroadException
 class Methods:
     """Функция для расчета градуировочного коэффициента
-    при расчёте оного с использованием только одного тензомоста (метод прямой градуировки) с помощью МНК"""
+    при расчёте оного с использованием только одного тензомоста (метод прямой градуировки).
+    По сути обычная линейная регрессия."""
     @staticmethod
     def linear_regression(tenzo_parameter: str, f_parameter: str, t0: int, t1: int):
         try:
-            print("im trying")
             x = data[tenzo_parameter].values[t0:t1]
             y = data[f_parameter].values[t0:t1]
             lin = np.polyfit(x=x, y=y, deg=1)
