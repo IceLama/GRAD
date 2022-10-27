@@ -89,7 +89,7 @@ class ParameterUiDialog(QWidget):
         dialog.resize(700, 800)
         dialog.setSizeGripEnabled(False)
         dialog.setModal(False)
-        dialog.setWindowIcon(QIcon("logos/formulas_logo.png"))
+        dialog.setWindowIcon(QIcon("formulas_logo.png"))
         self.grid_layout = QGridLayout(dialog)
         self.frame = QFrame(dialog)
         self.frame.setMinimumSize(QSize(100, 30))
@@ -271,7 +271,7 @@ class ParameterUiDialog(QWidget):
                 else:
                     self.message_3 = QMessageBox()
                     self.message_3.setWindowTitle("Упс! Что-то не так с формулой.")
-                    self.message_3.setIcon(QIcon("logos/error_logo.png"))
+                    self.message_3.setIcon(QIcon("error_logo.png"))
                     self.message_3.setText("Проверьте формулу и введите её заново!")
                     self.message_3.show()
                     self.update_data()
@@ -327,7 +327,7 @@ class ParameterUiDialog(QWidget):
         else:
             self.error_1 = QMessageBox()
             self.error_1.setWindowTitle("Ошибка!")
-            self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_1.setWindowIcon(QIcon("error_logo.png"))
             self.error_1.setText("Что-то не получилось! Возможно такие параметры уже есть!")
             self.error_1.show()
 
@@ -343,7 +343,7 @@ class ParameterUiDialog(QWidget):
         else:
             self.error_2 = QMessageBox()
             self.error_2.setWindowTitle("Ошибка!")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setText("Что-то не получилось! Возможно такие параметры уже есть!")
             self.error_2.show()
 
@@ -359,7 +359,7 @@ class ParameterUiDialog(QWidget):
         else:
             self.error_3 = QMessageBox()
             self.error_3.setWindowTitle("Ошибка!")
-            self.error_3.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_3.setWindowIcon(QIcon("error_logo.png"))
             self.error_3.setText("Что-то не получилось! Возможно такие параметры уже есть!")
             self.error_3.show()
 
@@ -386,7 +386,7 @@ class ParameterUiDialog(QWidget):
         else:
             self.error_4 = QMessageBox()
             self.error_4.setWindowTitle("Ошибки в формулах!                                       ")
-            self.error_4.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_4.setWindowIcon(QIcon("error_logo.png"))
             self.error_4.setText(f"Ошибка в формуле параметра: {err_req}")
             self.error_4.show()
 
@@ -414,7 +414,7 @@ class AddFormulaDialog(object):
     def setup_ui(self, dialog):
         dialog.resize(1100, 400)
         dialog.setMinimumSize(QSize(0, 0))
-        dialog.setWindowIcon(QIcon("logos/formulas_logo.png"))
+        dialog.setWindowIcon(QIcon("formulas_logo.png"))
         self.vertical_layout = QVBoxLayout(dialog)
         self.frame = QFrame(dialog)
         self.frame.setFrameShape(QFrame.StyledPanel)
@@ -540,7 +540,7 @@ class GraphicByTimeUiDialog(object):
 
     def setup_ui(self, dialog):
         dialog.resize(500, 600)
-        dialog.setWindowIcon(QIcon("logos/graphic_sharex_logo.png"))
+        dialog.setWindowIcon(QIcon("graphic_sharex_logo.png"))
         self.item_list_1 = [i for i in MainCode.data.columns[:-1]]
         self.file_name = MainCode.file_name_g
         self.vertical_layout_1 = QVBoxLayout(dialog)
@@ -668,12 +668,12 @@ class GraphicByTimeUiDialog(object):
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Ошибка!                                                              ")
                 self.error_1.setText("Выберите данные для графика!\nТолько 2 параметра.")
-                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_1.setWindowIcon(QIcon("error_logo.png"))
                 self.error_1.show()
         else:
             self.error_2 = QMessageBox()
             self.error_2.setWindowTitle("Ошибка!                                                             ")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setFocusPolicy(Qt.StrongFocus)
             self.error_2.setText(
                 "В данных нет времени!\nЧтобы нарисовать графики добавьте параметр время в данные. Для этого: "
@@ -694,14 +694,14 @@ class GraphicByTimeUiDialog(object):
             else:
                 self.error_3 = QMessageBox()
                 self.error_3.setWindowTitle("Ошибка!                                                              ")
-                self.error_3.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_3.setWindowIcon(QIcon("error_logo.png"))
                 self.error_3.setText("Выберите данные для графика!\nМинимум 2 параметра. "
                                      "Максимум рекомендуется 10 параметров, иначе ни черта не видно.")
                 self.error_3.show()
         else:
             self.error_4 = QMessageBox()
             self.error_4.setWindowTitle("Ошибка!                                                                 ")
-            self.error_4.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_4.setWindowIcon(QIcon("error_logo.png"))
             self.error_4.setFocusPolicy(Qt.StrongFocus)
             self.error_4.setText(
                 "В данных нет времени!\nЧтобы нарисовать графики добавьте параметр время в данные. Для этого: "
@@ -732,7 +732,7 @@ class GraphicByParameterUiDialog(object):
 
     def setup_ui(self, dialog):
         dialog.resize(600, 400)
-        dialog.setWindowIcon(QIcon("logos/graphic_param_logo.png"))
+        dialog.setWindowIcon(QIcon("graphic_param_logo.png"))
         self.item_list = [i for i in MainCode.data.columns[:-1]]
         self.file_name = MainCode.file_name_g
         self.vertical_layout = QVBoxLayout(dialog)
@@ -801,7 +801,7 @@ class GraphicByParameterUiDialog(object):
         else:
             self.error = QMessageBox()
             self.error.setWindowTitle("Ошибка!")
-            self.error.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error.setWindowIcon(QIcon("error_logo.png"))
             self.error.setFocusPolicy(Qt.StrongFocus)
             self.error.setText("Не хватает данных!")
             self.error.show()
@@ -843,7 +843,7 @@ class LinalgUiDialog(object):
     def setup_ui(self, dialog):
         dialog.resize(500, 700)
         dialog.setMinimumSize(QSize(300, 500))
-        dialog.setWindowIcon(QIcon("logos/regression_logo.png"))
+        dialog.setWindowIcon(QIcon("regression_logo.png"))
         self.vertical_layout_1 = QVBoxLayout(dialog)
         self.item_list = [i for i in MainCode.data.columns[:-1]]
         self.label_1 = QLabel(dialog)
@@ -961,14 +961,14 @@ class LinalgUiDialog(object):
             else:
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Ошибка!                             ")
-                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_1.setWindowIcon(QIcon("error_logo.png"))
                 self.error_1.setFocusPolicy(Qt.StrongFocus)
                 self.error_1.setText("Что-то не получилось! Проверьте данные!")
                 self.error_1.show()
         else:
             self.error_2 = QMessageBox()
             self.error_2.setWindowTitle("Ошибка!                                  ")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setFocusPolicy(Qt.StrongFocus)
             self.error_2.setText("Выберите данные!")
             self.error_2.show()
@@ -1009,7 +1009,7 @@ class MultiLinalgUiDialog(object):
     def setup_ui(self, dialog):
         dialog.resize(500, 700)
         dialog.setMinimumSize(QSize(400, 500))
-        dialog.setWindowIcon(QIcon("logos/regression_logo.png"))
+        dialog.setWindowIcon(QIcon("regression_logo.png"))
         self.vertical_layout_1 = QVBoxLayout(dialog)
         self.item_list = [i for i in MainCode.data.columns[:-1]]
         self.label_1 = QLabel(dialog)
@@ -1137,14 +1137,14 @@ class MultiLinalgUiDialog(object):
             else:
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Ошибка!")
-                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_1.setWindowIcon(QIcon("error_logo.png"))
                 self.error_1.setFocusPolicy(Qt.StrongFocus)
                 self.error_1.setText("Что-то не получилось! Проверьте данные!")
                 self.error_1.show()
         else:
             self.error_2 = QMessageBox()
             self.error_2.setWindowTitle("Ошибка!")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setFocusPolicy(Qt.StrongFocus)
             self.error_2.setText("Выберите данные!")
             self.error_2.show()
@@ -1333,14 +1333,14 @@ class ImportUiDialog(object):
         if importing:
             self.successful = QMessageBox()
             self.successful.setWindowTitle("Успех!")
-            self.successful.setWindowIcon(QIcon("logos/success_logo.png"))
+            self.successful.setWindowIcon(QIcon("success_logo.png"))
             self.successful.setFocusPolicy(Qt.StrongFocus)
             self.successful.setText("Импорт данных завершен!")
             self.successful.show()
         else:
             self.error = QMessageBox()
             self.error.setWindowTitle("Ошибка!")
-            self.error.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error.setWindowIcon(QIcon("error_logo.png"))
             self.error.setFocusPolicy(Qt.StrongFocus)
             self.error.setText("Что-то не получилось. Импорт не произведен!")
             self.error.show()
@@ -1584,14 +1584,14 @@ class UniteDataUiDialog(object):
         if united:
             self.successful = QMessageBox()
             self.successful.setWindowTitle("Успех!")
-            self.successful.setWindowIcon(QIcon("logos/success_logo.png"))
+            self.successful.setWindowIcon(QIcon("success_logo.png"))
             self.successful.setFocusPolicy(Qt.StrongFocus)
             self.successful.setText("Склеивание данных завершено!")
             self.successful.show()
         else:
             self.error = QMessageBox()
             self.error.setWindowTitle("Ошибка!")
-            self.error.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error.setWindowIcon(QIcon("error_logo.png"))
             self.error.setFocusPolicy(Qt.StrongFocus)
             self.error.setText("Что-то не получилось. Склеивание не произведено!")
             self.error.show()
@@ -1695,14 +1695,14 @@ class ShiftParameters(object):
             if success:
                 self.successful = QMessageBox()
                 self.successful.setWindowTitle("Успех!")
-                self.successful.setWindowIcon(QIcon("logos/success_logo.png"))
+                self.successful.setWindowIcon(QIcon("success_logo.png"))
                 self.successful.setFocusPolicy(Qt.StrongFocus)
                 self.successful.setText("Сдвиг произведен!")
                 self.successful.show()
             else:
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Упс!")
-                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_1.setWindowIcon(QIcon("error_logo.png"))
                 self.error_1.setFocusPolicy(Qt.StrongFocus)
                 self.error_1.setText("Что-то не получилось!")
                 self.error_1.show()
@@ -1710,7 +1710,7 @@ class ShiftParameters(object):
         else:
             self.error_2 = QMessageBox()
             self.error_2.setWindowTitle("Ошибка!")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setFocusPolicy(Qt.StrongFocus)
             self.error_2.setText("Выберите данные")
             self.error_2.show()
@@ -1897,13 +1897,13 @@ class ExportUiDialog(object):
                 self.successful = QMessageBox()
                 self.successful.setWindowTitle("Отчёт                                               ")
                 self.successful.setText("Успех! Экспорт данных произведен!")
-                self.successful.setWindowIcon(QIcon("logos/success_logo.png"))
+                self.successful.setWindowIcon(QIcon("success_logo.png"))
                 self.successful.show()
             elif not done:
                 self.error = QMessageBox()
                 self.error.setWindowTitle("Отчёт                                                 ")
                 self.error.setText("Упс! Что-то не получилось")
-                self.error.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error.setWindowIcon(QIcon("error_logo.png"))
                 self.error.show()
 
 
@@ -1911,7 +1911,7 @@ class Que(QMainWindow):
     def __init__(self):
         super(Que, self).__init__()
 
-        self.setWindowIcon(QIcon("icons/help_icon.png"))
+        self.setWindowIcon(QIcon("help_icon.png"))
         self.setWindowTitle("Справка о программе")
         self.resize(1200, 900)
         self.central_widget = QWidget()

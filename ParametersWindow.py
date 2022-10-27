@@ -51,7 +51,7 @@ class ParameterWindow(QMainWindow):
 
     def __init__(self):
         super(ParameterWindow, self).__init__()
-        self.setWindowIcon(QIcon("logos/param_table_logo.png"))
+        self.setWindowIcon(QIcon("param_table_logo.png"))
         self.setWindowTitle("Таблица со значениями")
         self.central_widget = QWidget(self)
         self.table = QTableView(self.central_widget)
@@ -98,13 +98,13 @@ class ParameterWindow(QMainWindow):
                     nans.update({i: count_nonzero(nan)})
         if nans:
             self.message_1 = QMessageBox()
-            self.message_1.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.message_1.setWindowIcon(QIcon("error_logo.png"))
             self.message_1.setWindowTitle("Отчёт                                                                ")
             self.message_1.setText(f"Параметр - количество пропусков:\n{[f'{i} - {nans.get(i)}' for i in nans]}")
             self.message_1.show()
         elif not nans:
             self.message_2 = QMessageBox()
-            self.message_2.setWindowIcon(QIcon("logos/success_logo.png"))
+            self.message_2.setWindowIcon(QIcon("success_logo.png"))
             self.message_2.setWindowTitle("Отчёт                                                              ")
             self.message_2.setText("Пропусков нет!")
             self.message_2.show()
@@ -124,19 +124,19 @@ class ParameterWindow(QMainWindow):
                 MainCode.data.interpolate(method=method, limit_direction="both", inplace=True, order=degree)
                 self.success = QMessageBox()
                 self.success.setWindowTitle("Отчёт                                                ")
-                self.success.setWindowIcon(QIcon("logos/success_logo.png"))
+                self.success.setWindowIcon(QIcon("success_logo.png"))
                 self.success.setText("Успешно!")
                 self.success.show()
             except Exception:
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Отчёт                                                 ")
-                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
+                self.error_1.setWindowIcon(QIcon("error_logo.png"))
                 self.error_1.setText("Упс! Что-то не получилось!\nПопробуйте заново.")
                 self.error_1.show()
         else:
             self.error_2 = QMessageBox(self)
             self.error_2.setWindowTitle("Что-то не так!                                            ")
-            self.error_2.setWindowIcon(QIcon("logos/error_logo.png"))
+            self.error_2.setWindowIcon(QIcon("error_logo.png"))
             self.error_2.setText("Выберите метод для интерполяции")
             self.error_2.show()
 

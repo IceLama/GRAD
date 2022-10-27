@@ -141,8 +141,8 @@ class MainWindow(QMainWindow, UiMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("logos/logo.bmp"))
+    app.setWindowIcon(QIcon("logo.bmp"))
     win = MainWindow()
-    win.setWindowIcon(QIcon("logos/logo.bmp"))
+    win.setWindowIcon(QIcon("logo.bmp"))
     win.show()
     sys.exit(app.exec())
