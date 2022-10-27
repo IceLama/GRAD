@@ -109,7 +109,6 @@ class ParameterWindow(QMainWindow):
             self.message_2.setText("Пропусков нет!")
             self.message_2.show()
 
-    #
     def fill_nans(self):
         method = ""
         degree = 0

@@ -130,7 +130,7 @@ class UiMainWindow:
         self.save_file_mw.setShortcut(_translate("main_window", "Ctrl+S"))
         self.save_file_mw.setIcon(QIcon("icons/save_icon.png"))
         self.save_file_as_mw.setText(_translate("main_window", "Сохранить как..."))
-        self.save_file_as_mw.setShortcut(_translate("main_window", "Ctrl+A"))
+        self.save_file_as_mw.setShortcut(_translate("main_window", "Ctrl+Shift+S"))
         self.save_file_as_mw.setIcon(QIcon("icons/save_as_icon.png"))
         self.import_files_mw.setText(_translate("main_window", "Импорт..."))
         self.import_files_mw.setIcon(QIcon("icons/import_icon.png"))

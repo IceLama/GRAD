@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QAbstractItemView, QDialogButtonBox, QVBoxLayout, \
     QApplication, QGridLayout, QSizePolicy, QFrame, QFileDialog, QMessageBox, QSpacerItem, QSpinBox, QDialog, \
     QPlainTextEdit, QTableView, QCheckBox, QLineEdit, QMainWindow
 from pandas import DataFrame, Series, Index
-
 import MainCode
 from MainCode import Files, Methods, Parameters
 import GraphicsMatplotlib
@@ -272,7 +271,7 @@ class ParameterUiDialog(QWidget):
                 else:
                     self.message_3 = QMessageBox()
                     self.message_3.setWindowTitle("Упс! Что-то не так с формулой.")
-                    self.message_3.setFocusPolicy(Qt.StrongFocus)
+                    self.message_3.setIcon(QIcon("logos/error_logo.png"))
                     self.message_3.setText("Проверьте формулу и введите её заново!")
                     self.message_3.show()
                     self.update_data()
@@ -630,7 +629,7 @@ class GraphicByTimeUiDialog(object):
 
     def retranslate_ui(self, dialog):
         dialog.setWindowTitle(QCoreApplication.translate("dialog", "График по времени. "
-                                                                   "Выбор параметров для графика", None))
+                                                                   "Выбор параметров для графика.", None))
         self.push_button_1.setText(QCoreApplication.translate("dialog", "Добавить выбранные параметры", None))
         self.push_button_3.setText(QCoreApplication.translate("dialog", "Графики с разными осями Y", None))
         self.push_button_4.setText(QCoreApplication.translate("dialog", "График с одной осью Y", None))
@@ -638,8 +637,8 @@ class GraphicByTimeUiDialog(object):
         self.radio_button_1.setText(QCoreApplication.translate("dialog", "Выбрать все", None))
         self.radio_button_2.setText(QCoreApplication.translate("dialog", "Снять все", None))
         self.label.setText(QCoreApplication.translate("dialog",
-                                                      "Выберите параметры (минимум 2). \nДля графика с разными осями "
-                                                      "max рекомендуется  10", None))
+                                                      "Выберите параметры (min 2)\nДля графика с разными осями "
+                                                      "max рекомендуется 10", None))
 
     def update_by_doubleclick(self):
         self.item_list_2.append(self.list_view_2.currentIndex().data())
@@ -668,10 +667,8 @@ class GraphicByTimeUiDialog(object):
             else:
                 self.error_1 = QMessageBox()
                 self.error_1.setWindowTitle("Ошибка!                                                              ")
-                self.error_1.setText("Выберите данные для графика!\nВыделите 2 параметра в правой колонке и нажмите: "
-                                     "'Добавить выбранные параметры', выбранные параметры окажутся в левой колонке. "
-                                     "Или добавляйте параметры двойным щелчком в правой колонке. Только 2 параметра.")
-                self.error_1.setFocusPolicy(Qt.StrongFocus)
+                self.error_1.setText("Выберите данные для графика!\nТолько 2 параметра.")
+                self.error_1.setWindowIcon(QIcon("logos/error_logo.png"))
                 self.error_1.show()
         else:
             self.error_2 = QMessageBox()
@@ -691,14 +688,14 @@ class GraphicByTimeUiDialog(object):
                 graph_title, ok = QInputDialog.getText(QWidget(), "Название", "Название графика (по желанию):")
                 if ok:
                     GraphicsMatplotlib.GraphicShareX(args=args, file_name=self.file_name, graph_title=graph_title)
+                else:
+                    print("catch")
+                    pass
             else:
                 self.error_3 = QMessageBox()
                 self.error_3.setWindowTitle("Ошибка!                                                              ")
                 self.error_3.setWindowIcon(QIcon("logos/error_logo.png"))
-                self.error_3.setFocusPolicy(Qt.StrongFocus)
-                self.error_3.setText("Выберите данные для графика!\nВыделите параметры в правой колонке и нажмите: "
-                                     "'Добавить выбранные параметры', выбранные параметры окажутся в левой колонке. "
-                                     "Или добавляйте параметры двойным щелчком в правой колонке. Минимум 2 параметра. "
+                self.error_3.setText("Выберите данные для графика!\nМинимум 2 параметра. "
                                      "Максимум рекомендуется 10 параметров, иначе ни черта не видно.")
                 self.error_3.show()
         else:
@@ -797,7 +794,7 @@ class GraphicByParameterUiDialog(object):
         y = self.list_view_2.currentIndex().data()
 
         if x and y:
-            graph_title, ok = QInputDialog.getText(QWidget(), "Название", "Название графика(по желанию):")
+            graph_title, ok = QInputDialog.getText(QWidget(), "Название", "Название графика (по желанию):")
             args = [x, y]
             if ok:
                 GraphicsMatplotlib.GraphicParamByParam(args=args, file_name=self.file_name, graph_title=graph_title)
@@ -1527,7 +1524,7 @@ class UniteDataUiDialog(object):
         self.radio_button_6.setText(QCoreApplication.translate("dialog", "CP1251", None))
         self.label_4.setText(QCoreApplication.translate("dialog", "Как склеиваем?"))
         self.radio_button_7.setText(QCoreApplication.translate("dialog", "Последовательно", None))
-        self.radio_button_8.setText(QCoreApplication.translate("dialog", "Параллельно", None))
+        self.radio_button_8.setText(QCoreApplication.translate("dialog", "Параллельно (2 файла)", None))
         self.radio_button_9.setText(QCoreApplication.translate("dialog", "Одиночные", None))
         self.radio_button_9.setWhatsThis("Для склеивания файлов после программы TNWorks. "
                                          "Когда каждый параметр записан в отдельный текстовый файл. "
@@ -1916,13 +1913,13 @@ class Que(QMainWindow):
 
         self.setWindowIcon(QIcon("icons/help_icon.png"))
         self.setWindowTitle("Справка о программе")
-        self.resize(800, 600)
+        self.resize(1200, 900)
         self.central_widget = QWidget()
         self.grid_layout = QGridLayout(self.central_widget)
 
         self.plain_text = QPlainTextEdit(self.central_widget)
         self.model = QStringListModel(self.central_widget)
-        with open("que1.txt", encoding="utf-8") as f:
+        with open("que.txt", encoding="utf-8") as f:
             que_file = f.read()
         self.plain_text.setPlainText(que_file)
         self.font = QFont()

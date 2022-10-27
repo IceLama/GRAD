@@ -71,7 +71,7 @@ class MainWindow(QMainWindow, UiMainWindow):
 
     @staticmethod
     def save_as_mf():
-        file_name, ok = QFileDialog.getSaveFileName(QFileDialog(), "Сохранить файл", filter="*.grad \n *.csv")
+        file_name, ok = QFileDialog.getSaveFileName(QFileDialog(), "Сохранить файл как ...", filter="*.grad\n*.csv")
         if ok:
             Files.save_as(file_name)
 
@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, UiMainWindow):
 
     def closeEvent(self, event):
         self.close = QMessageBox()
-        ask = self.close.question(self, "", "Сохранить изменения?       ",
+        ask = self.close.question(self, "Закрытие программы", "Сохранить изменения?       ",
                                   self.close.Yes | self.close.Discard | self.close.No)
 
         if ask == self.close.Yes:
@@ -141,8 +141,8 @@ class MainWindow(QMainWindow, UiMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon("logos/logo.png"))
+    app.setWindowIcon(QIcon("logos/logo.bmp"))
     win = MainWindow()
-    win.setWindowIcon(QIcon("logos/logo.png"))
+    win.setWindowIcon(QIcon("logos/logo.bmp"))
     win.show()
     sys.exit(app.exec())

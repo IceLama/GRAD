@@ -65,38 +65,37 @@ class Files:
     """Объединение данных в формате .txt"""
     @staticmethod
     def concat_txt_data(files: list, how: str, ex_file_name: str = "New", coding: str = "utf-8",
-                        sep: bool = True, delimiter: str = ";"):
+                        sep: bool = False, delimiter: str = ";"):
         if not files:
             return False
         else:
+            data_concated = pd.DataFrame(dtype="float64")
+            data_to_save = pl.DataFrame()
             try:
+
                 if how == "Последовательно":
                     if sep:
                         df_files = [pd.read_table(file, sep="\s+", encoding=coding) for file in files]
-                        data_concated = pd.concat(df_files, ignore_index=True)
 
                     else:
                         df_files = [pd.read_csv(file, delimiter=delimiter, encoding=coding) for file in files]
-                        data_concated = pd.concat(df_files, ignore_index=True)
+                    data_concated = pd.concat(df_files, ignore_index=True)
                     data_to_save = pl.from_pandas(data_concated)
-                    data_to_save.write_csv(ex_file_name, sep=";")
 
                 elif how == "Параллельно":
                     if sep:
-                        df_files = [pl.read_csv(file, sep="\s+", encoding=coding) for file in files]
-                        data_concated = pl.concat(df_files, how="horizontal")
+                        df_files = [pd.read_csv(file, sep="\s+", encoding=coding) for file in files]
                     else:
-                        df_files = [pl.read_csv(file, sep=delimiter, encoding=coding) for file in files]
-                        data_concated = pl.concat(df_files, how="horizontal", )
-                    data_concated.write_csv(ex_file_name, sep=";")
+                        df_files = [pd.read_csv(file, delimiter=delimiter, encoding=coding) for file in files]
+                    data_concated = pd.merge(left=df_files[0], right=df_files[1], left_index=True, right_index=True)
+                    data_to_save = pl.from_pandas(data_concated)
 
                 elif how == "Одиночные":
-                    data_concated = pd.DataFrame(dtype="float64")
                     for file_name in files:
                         with open(file_name) as f:
                             data_concated[file_name.split("/")[-1][0:-4]] = pd.read_csv(f)
                     data_to_save = pl.from_pandas(data_concated)
-                    data_to_save.write_csv(ex_file_name, sep=";")
+                data_to_save.write_csv(ex_file_name, sep=";")
                 return True
             except ValueError:
                 return False

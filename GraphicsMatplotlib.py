@@ -28,7 +28,6 @@ class StatsDialog(QTableWidget):
         self.label = QLabel(self)
         self.label.setText(f"Статистические данные на отрезке: {self.t1} - {self.t2}")
         self.verticalLayout = QVBoxLayout(self)
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.addWidget(self.label)
 
         self.tableWidget.setColumnCount(6)
@@ -160,7 +159,7 @@ class GraphicShareX:
                 self.colors_to_cursor.append(colors[qt])
                 qt += 1
 
-        self.multi_cursor = MultiCursor(self.fig1.canvas, self.axes, useblit=True)
+                self.multi_cursor = MultiCursor(self.fig1.canvas, self.axes, useblit=True)
         b_data = args.copy()
         b_data.insert(0, "Time")
         self.data_to_cursor = [MainCode.data[i] for i in b_data]
@@ -173,7 +172,9 @@ class GraphicShareX:
 
         self.fig1.canvas.mpl_connect('key_press_event', self.show_legend)
 
-        plt.figtext(0.01, 0.01, "Значение под ползунком 'y'  |  Границы выделенного диапазона 't'  |  "
+        plt.figtext(0.01, 0.01, "Значение под ползунком 'y'  |  "
+                                "Установить флажок Ctrl+y  |  "
+                                "Границы выделенного диапазона 't'  |  "
                                 "Стат. данные на диапазоне Ctrl+Alt+t  |  "
                                 "Удалить диапазон значений Ctrl+Alt+d  |  "
                                 "Частотная область диапазона Ctrl+Alt+f")
@@ -296,7 +297,7 @@ class GraphicShareX:
                 self.message.setWindowIcon(QIcon("logos/success_logo.png"))
                 self.message.setText("Выбранный участок удалён! Чтобы это увидеть нужно отрисовать график заново! "
                                      "Вот так.\nЗаколебался думать как это сделать автоматически.\nПЕРЕД СЛЕДУЮЩИМ "
-                                     "ОТРИСУЙТЕ ГРАФИК ЗАНОВО!")
+                                     "УДАЛЕНИЕМ ОТРИСУЙТЕ ГРАФИК ЗАНОВО!")
                 self.message.setFocusPolicy(Qt.StrongFocus)
                 self.message.show()
             else:
@@ -360,6 +361,28 @@ class GraphicShareX:
             self.stats_m = StatsDialog(data=self.data_to_plot, t1=self.t1, t2=self.t2,
                                        ind_min=self.ind_min, ind_max=self.ind_max)
             self.stats_m.show()
+        elif event.key == "ctrl+y":
+            mouse_x_data = event.xdata
+
+            if not type(mouse_x_data) == np.float_:
+                pass
+            else:
+                closest_x_value, pos_closest_x_value = take_closest(self.data_to_cursor[0], mouse_x_data)
+                i = 1
+                for ax in self.axes:
+                    x_val = closest_x_value
+                    y_val = self.data_to_cursor[i][pos_closest_x_value]
+                    y = self.data_to_cursor[i].name
+                    edge_color = self.colors_to_cursor[i - 1]
+                    data_legend = ax.annotate(f"{y} = {y_val}", xy=(x_val, y_val), ha="center",
+                                              xycoords="data", textcoords="offset points", xytext=(-20, 25),
+                                              bbox=dict(boxstyle='round', edgecolor=edge_color,
+                                                        facecolor='wheat', alpha=1),
+                                              arrowprops=dict(arrowstyle="->", linewidth=2.5, color="black")
+                                              )
+                    ax.draw_artist(data_legend)
+                    i += 1
+            self.fig1.canvas.update()
 
 
 class GraphicOneY:
