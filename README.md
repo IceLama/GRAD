@@ -1,6 +1,5 @@
 # GRAD
-This program is intended for processing field calibration data and flight data.
-But, use it however you want, if you can.
+This program is intended for processing on machine calibration data and flight data. But, use it however you want, if you can.
 
 
 I File
@@ -11,7 +10,7 @@ I File
    Any text file in the form of a table is suitable for import.
    Files are imported through the appropriate window: File → Import. The Import window opens.
    Next, you need to specify the parameters of the imported file: delimiter; encoding. To select a file to import, click the "Select a file to import" button. Then, when the file appears in the window, select it and click "Import". You can only import one file at a time.
-   The result of the import will appear in a pop-up window. Ready!
+   The result of the import will appear in a pop-up window. Done!
    The imported file is no different from a regular text file, despite the ".grad" extension. Just a column with the name "__Formulas__" is added to the end of the table, all entered formulas will be written to this column in the future. A file with the ".grad" extension can be opened with regular notepad.
 
 
