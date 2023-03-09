@@ -1,5 +1,4 @@
 # GRAD
-ENG
 This program is intended for processing field calibration data and flight data.
 But, use it however you want, if you can.
 
