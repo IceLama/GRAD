@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+build/
+dist/
+wheels/
+*.so
+
+# uv / virtual environments
+.venv/
+venv/
+env/
+
+# PyInstaller (writes build/ and dist/, ignored above; *.spec files are kept)
+*.manifest
+
+# Tests and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+junit*.xml
+.tox/
+.nox/
+test-output/
+test-results/
+
+# Linters and type checkers
+.ruff_cache/
+.mypy_cache/
+.pyright/
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
